@@ -13,4 +13,4 @@ class Journals(Manager):
     """
     Journal entries
     """
-    resource = 'read/financial/Journals'
+    resource = 'financial/Journals'
