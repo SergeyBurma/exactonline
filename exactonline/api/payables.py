@@ -14,7 +14,7 @@ class Payables(Manager):
     """
     Payables 
     """
-    resource = 'read/financial/PayablesList'
+    resource = 'cashflow/Payments'
 
     def filter(self, relation_id=None, duedate__lt=None, duedate__gte=None,
                **kwargs):
@@ -22,6 +22,27 @@ class Payables(Manager):
         A common query would be duedate__lt=date(2015, 1, 1) to get all
         Receivables that are due in 2014 and earlier.
         """
+        if 'select' not in kwargs:
+            select = [
+                'AmountDC',
+                'AmountDiscountDC',
+                'BankAccountID',
+                'DueDate',
+                'DiscountDueDate',
+                'EndDate',
+                'EntryDate',
+                'EntryNumber',
+                'InvoiceDate',
+                'PaymentDays',
+                'PaymentDaysDiscount',
+                'PaymentMethod',
+                'Status',
+                'TransactionAmountDC',
+                'TransactionEntryID',
+                'TransactionType',
+            ]
+            kwargs['select'] = ','.join(select)
+
         if relation_id is not None:
             # Filter by (relation) account_id. There doesn't seem to be
             # any reason to prefer

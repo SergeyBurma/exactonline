@@ -14,3 +14,15 @@ class Transactions(Manager):
     Transactions objects
     """
     resource = 'financialtransaction/Transactions'
+
+    def filter(self, **kwargs):
+        if 'select' not in kwargs:
+            select = [
+                'EntryID',
+                'TransactionLines',
+                'Type',
+                'Date',
+                'FinancialYear',
+                'FinancialPeriod',
+            ]
+            kwargs['select'] = ','.join(select)
