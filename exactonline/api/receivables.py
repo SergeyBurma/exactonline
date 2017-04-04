@@ -26,6 +26,7 @@ class Receivables(Manager):
             select = [
                 'AmountDC',
                 'AmountDiscountDC',
+                'AccountName',
                 'BankAccountID',
                 'DueDate',
                 'DiscountDueDate',

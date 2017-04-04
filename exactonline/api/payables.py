@@ -26,6 +26,7 @@ class Payables(Manager):
             select = [
                 'AmountDC',
                 'AmountDiscountDC',
+                'AccountName',
                 'BankAccountID',
                 'DueDate',
                 'DiscountDueDate',
