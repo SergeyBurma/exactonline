@@ -28,6 +28,7 @@ class Payables(Manager):
                 'AmountDiscountDC',
                 'AccountName',
                 'BankAccountID',
+                'Created',
                 'DueDate',
                 'DiscountDueDate',
                 'EndDate',

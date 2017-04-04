@@ -28,6 +28,7 @@ class Receivables(Manager):
                 'AmountDiscountDC',
                 'AccountName',
                 'BankAccountID',
+                'Created',
                 'DueDate',
                 'DiscountDueDate',
                 'EndDate',
