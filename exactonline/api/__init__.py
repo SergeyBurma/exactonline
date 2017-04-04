@@ -19,7 +19,9 @@ from .ledgeraccounts import LedgerAccounts
 from .receivables import Receivables
 from .relations import Relations
 from .payables import Payables
-from .journal_entries import Journals
+from .journals import Journals
+from .transaction_lines import TransactionLines
+from .transactions import Transactions
 
 
 class ExactApi(
@@ -41,3 +43,5 @@ class ExactApi(
     relations = Relations.as_property()
     payables = Payables.as_property()
     journals = Journals.as_property()
+    transactions = Transactions.as_property()
+    transaction_lines = TransactionLines.as_property()
