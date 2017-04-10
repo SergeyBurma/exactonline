@@ -11,7 +11,7 @@ from datetime import datetime
 
 
 def parse_dates(record):
-    for key, value in record:
+    for key, value in record.items():
         if not value.startswith('/Date('):
             continue
         timestamp = value.split('(')[1]
