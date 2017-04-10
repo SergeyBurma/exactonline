@@ -8,63 +8,11 @@ Original Copyright (C) 2015 Walter Doekes, OSSO B.V.
 2017 Sergey Burma
 """
 from .manager import Manager
+from .mixins import DueDateFilter
 
 
-class Payables(Manager):
+class Payables(DueDateFilter, Manager):
     """
-    Payables 
+    Payables
     """
     resource = 'cashflow/Payments'
-
-    def filter(self, relation_id=None, duedate__lt=None, duedate__gt=None,
-               **kwargs):
-        """
-        A common query would be duedate__lt=date(2015, 1, 1) to get all
-        Receivables that are due in 2014 and earlier.
-        """
-        if 'select' not in kwargs:
-            select = [
-                'AmountDC',
-                'AmountDiscountDC',
-                'AccountName',
-                'BankAccountID',
-                'DueDate',
-                'DiscountDueDate',
-                'EndDate',
-                'EntryDate',
-                'EntryNumber',
-                'InvoiceDate',
-                'PaymentDays',
-                'PaymentDaysDiscount',
-                'PaymentMethod',
-                'Status',
-                'TransactionAmountDC',
-                'TransactionEntryID',
-                'TransactionID',
-                'TransactionType',
-            ]
-            kwargs['select'] = ','.join(select)
-
-        if relation_id is not None:
-            # Filter by (relation) account_id. There doesn't seem to be
-            # any reason to prefer
-            # 'read/financial/ReceivablesListByAccount?accountId=X' over
-            # this.
-            relation_id = self._remote_guid(relation_id)
-            self._filter_append(kwargs, u'AccountId eq %s' % (relation_id,))
-
-        if duedate__lt is not None:
-            # Not sure what the AgeGroup means in
-            # ReceivablesListByAgeGroup, but we can certainly do
-            # without.
-            duedate__lt = self._remote_datetime(duedate__lt)
-            self._filter_append(kwargs, u'DueDate lt %s' % (duedate__lt,))
-
-        if duedate__gt is not None:
-            # Not sure what the AgeGroup means in
-            # ReceivablesListByAgeGroup, but we can certainly do
-            # without.
-            duedate__gt = self._remote_datetime(duedate__gt)
-            self._filter_append(kwargs, u'DueDate gt %s' % (duedate__gt,))
-
-        return super(Payables, self).filter(**kwargs)
