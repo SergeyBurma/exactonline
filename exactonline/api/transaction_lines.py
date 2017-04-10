@@ -15,7 +15,37 @@ class TransactionLines(Manager):
     """
     resource = 'financialtransaction/TransactionLines'
 
-    def filter(self, invoice_id__in=None, **kwargs):
+    def filter(self, invoice_id__in=None, date__lt=None, date__gt=None, **kwargs):
+        if 'select' not in kwargs:
+            select = [
+                'Account',
+                'AccountCode',
+                'AmountDC',
+                'AmountVATBaseFC',
+                'Date',
+                'DueDate',
+                'Created',
+                'Division',
+                'FinancialYear',
+                'FinancialPeriod',
+                'EntryID',
+                'EntryNumber',
+                'GLAccount',
+                'ID',
+                'JournalCode',
+                'Type',
+                'VATPercentage',
+                'VATCode',
+                'VATType',
+                'VATCodeDescription',
+            ]
+            kwargs['select'] = ','.join(select)
+        if date__lt is not None:
+            self._filter_append(kwargs, "Date lt datetime'{}'".format(
+                self._remote_datetime(date__lt)))
+        if date__gt is not None:
+            self._filter_append(kwargs, "Date gt datetime'{}'".format(
+                self._remote_datetime(date__gt)))
         if invoice_id__in is not None:
             invoice_filter = []
             for invoice_id in invoice_id__in:

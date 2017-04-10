@@ -16,7 +16,7 @@ class Receivables(Manager):
     """
     resource = 'cashflow/Receivables'
 
-    def filter(self, relation_id=None, duedate__lt=None, duedate__gte=None,
+    def filter(self, relation_id=None, duedate__lt=None, duedate__gt=None,
                **kwargs):
         """
         A common query would be duedate__lt=date(2015, 1, 1) to get all
@@ -59,11 +59,11 @@ class Receivables(Manager):
             duedate__lt = self._remote_datetime(duedate__lt)
             self._filter_append(kwargs, u'DueDate lt %s' % (duedate__lt,))
 
-        if duedate__gte is not None:
+        if duedate__gt is not None:
             # Not sure what the AgeGroup means in
             # ReceivablesListByAgeGroup, but we can certainly do
             # without.
-            duedate__gte = self._remote_datetime(duedate__gte)
-            self._filter_append(kwargs, u'DueDate ge %s' % (duedate__gte,))
+            duedate__gt = self._remote_datetime(duedate__gt)
+            self._filter_append(kwargs, u'DueDate gt %s' % (duedate__gt,))
 
         return super(Receivables, self).filter(**kwargs)

@@ -15,14 +15,22 @@ class Transactions(Manager):
     """
     resource = 'financialtransaction/Transactions'
 
-    def filter(self, **kwargs):
+    def filter(self, date__lt=None, date__gt=None, **kwargs):
         if 'select' not in kwargs:
             select = [
                 'EntryID',
                 'TransactionLines',
                 'Type',
+                'ClosingBalanceFC',
                 'Date',
+                'OpeningBalanceFC',
                 'FinancialYear',
                 'FinancialPeriod',
             ]
             kwargs['select'] = ','.join(select)
+        if date__lt is not None:
+            self._filter_append(kwargs, "Date lt datetime'{}'".format(
+                self._remote_datetime(date__lt)))
+        if date__gt is not None:
+            self._filter_append(kwargs, "Date gt datetime'{}'".format(
+                self._remote_datetime(date__gt)))
