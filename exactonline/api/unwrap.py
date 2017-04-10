@@ -7,6 +7,18 @@ This file is part of the Exact Online REST API Library in Python
 (EORALP), licensed under the LGPLv3+.
 Copyright (C) 2015-2017 Walter Doekes, OSSO B.V.
 """
+from datetime import datetime
+
+
+def parse_dates(record):
+    for key, value in record:
+        if not value.startswith('/Date('):
+            continue
+        timestamp = value.split('(')[1]
+        timestamp = timestamp.split(')')[0]
+        timestamp = int(timestamp)
+        record[key] = datetime.fromtimestamp(timestamp / 1000).date()
+    return record
 
 
 class Unwrap(object):
@@ -15,11 +27,6 @@ class Unwrap(object):
         ret = []
 
         while request:
-            if iteration >= 50:
-                raise ValueError(
-                    'Iteration %d limit reached! Last resource %r' % (
-                        iteration, request.resource))
-
             decoded = super(Unwrap, self).rest(request)
 
             # DELETE and PUT methods return None.
@@ -76,4 +83,5 @@ class Unwrap(object):
 
         ret = results
         assert isinstance(ret, list)
+        ret = map(parse_dates, ret)
         return ret, next_  # next_ is None when at the end
