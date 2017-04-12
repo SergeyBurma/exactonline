@@ -41,10 +41,10 @@ class TransactionLines(Manager):
             ]
             kwargs['select'] = ','.join(select)
         if date__lt is not None:
-            self._filter_append(kwargs, "Date lt datetime'{}'".format(
+            self._filter_append(kwargs, "Date lt {}".format(
                 self._remote_datetime(date__lt)))
         if date__gt is not None:
-            self._filter_append(kwargs, "Date gt datetime'{}'".format(
+            self._filter_append(kwargs, "Date gt {}".format(
                 self._remote_datetime(date__gt)))
         if invoice_id__in is not None:
             invoice_filter = []
