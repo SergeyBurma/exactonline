@@ -34,3 +34,4 @@ class Transactions(Manager):
         if date__gt is not None:
             self._filter_append(kwargs, "Date gt {}".format(
                 self._remote_datetime(date__gt)))
+        return super().filter(**kwargs)
