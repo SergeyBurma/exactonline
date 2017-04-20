@@ -1,6 +1,6 @@
 class DueDateFilter:
     def filter(self, relation_id=None, duedate__lt=None, duedate__gt=None,
-               **kwargs):
+               enddate__gt_or_null=None, **kwargs):
         """
         A common query would be duedate__lt=date(2015, 1, 1) to get all
         Receivables that are due in 2014 and earlier.
@@ -49,5 +49,12 @@ class DueDateFilter:
             # without.
             duedate__gt = self._remote_datetime(duedate__gt)
             self._filter_append(kwargs, u'DueDate gt %s' % (duedate__gt,))
+
+        if enddate__gt_or_null is not None:
+            enddate__gt = self._remote_datetime(enddate__gt_or_null)
+            self._filter_append(
+                kwargs,
+                u'(EndDate gt %s or EndDate eq null)' % (enddate__gt)
+            )
 
         return super().filter(**kwargs)
