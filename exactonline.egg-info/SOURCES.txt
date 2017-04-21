@@ -21,6 +21,7 @@ exactonline/api/invoices.py
 exactonline/api/journals.py
 exactonline/api/ledgeraccounts.py
 exactonline/api/manager.py
+exactonline/api/mixins.py
 exactonline/api/payables.py
 exactonline/api/receivables.py
 exactonline/api/relations.py

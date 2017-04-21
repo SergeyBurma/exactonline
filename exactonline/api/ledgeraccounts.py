@@ -15,7 +15,7 @@ class LedgerAccounts(Manager):
     def filter(self, code__in=None, **kwargs):
         # $select=ID,Code,Name
         if 'select' not in kwargs:
-            kwargs['select'] = 'ID,Code'
+            kwargs['select'] = 'ID,Code,TypeDescription,Type'
 
         if code__in is not None:
             code_filter = []

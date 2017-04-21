@@ -15,7 +15,8 @@ class TransactionLines(Manager):
     """
     resource = 'financialtransaction/TransactionLines'
 
-    def filter(self, invoice_id__in=None, date__lt=None, date__gt=None, **kwargs):
+    def filter(self, invoice_id__in=None, date__lt=None, date__gt=None,
+               account_code__in=None, type__in=None, **kwargs):
         if 'select' not in kwargs:
             select = [
                 'Account',
@@ -31,6 +32,7 @@ class TransactionLines(Manager):
                 'EntryID',
                 'EntryNumber',
                 'GLAccount',
+                'GLAccountCode',
                 'ID',
                 'JournalCode',
                 'Type',
@@ -49,7 +51,22 @@ class TransactionLines(Manager):
         if invoice_id__in is not None:
             invoice_filter = []
             for invoice_id in invoice_id__in:
-                invoice_filter.append("InvoiceNumber eq '{}'".format(invoice_id))
+                invoice_filter.append(
+                    "InvoiceNumber eq '{}'".format(invoice_id))
             self._filter_append(
                 kwargs, '({})'.format(' or '.join(invoice_filter)))
+        if account_code__in is not None:
+            accounts_filter = []
+            for account_code in account_code__in:
+                accounts_filter.append(
+                    "GLAccountCode eq '{}'".format(account_code))
+            self._filter_append(
+                kwargs, '({})'.format(' or '.join(accounts_filter)))
+        if type__in is not None:
+            types_filter = []
+            for t_type in type__in:
+                types_filter.append(
+                    "Type eq {}".format(t_type))
+            self._filter_append(
+                kwargs, '({})'.format(' or '.join(types_filter)))
         return super().filter(**kwargs)
