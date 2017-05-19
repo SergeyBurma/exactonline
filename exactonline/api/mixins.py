@@ -7,6 +7,7 @@ class DueDateFilter:
         """
         if 'select' not in kwargs:
             select = [
+                'ID',
                 'AmountDC',
                 'AmountDiscountDC',
                 'AccountName',
