@@ -1,5 +1,5 @@
 class DueDateFilter:
-    def filter(self, relation_id=None, duedate__lt=None, duedate__gt=None,
+    def filter(self, pk=None, relation_id=None, duedate__lt=None, duedate__gt=None,
                enddate__gt_or_null=None, **kwargs):
         """
         A common query would be duedate__lt=date(2015, 1, 1) to get all
@@ -28,6 +28,10 @@ class DueDateFilter:
                 'TransactionType',
             ]
             kwargs['select'] = ','.join(select)
+
+        if pk is not None:
+            pk = self._remote_guid(pk)
+            self._filter_append(kwargs, u'ID eq %s' % (pk,))
 
         if relation_id is not None:
             # Filter by (relation) account_id. There doesn't seem to be
