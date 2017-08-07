@@ -11,13 +11,14 @@ from datetime import datetime
 
 
 def parse_dates(record):
-    for key, value in record.items():
+    for key, value in list(record.items()):
         if not (isinstance(value, str) and value.startswith('/Date(')):
             continue
         timestamp = value.split('(')[1]
         timestamp = timestamp.split(')')[0]
         timestamp = int(timestamp)
         record[key] = datetime.fromtimestamp(timestamp / 1000).date()
+        record[key + '_dt'] = datetime.fromtimestamp(timestamp / 1000)
     return record
 
 
