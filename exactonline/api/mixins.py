@@ -26,6 +26,7 @@ class DueDateFilter:
                 'TransactionEntryID',
                 'TransactionID',
                 'TransactionType',
+                'Modified',
             ]
             kwargs['select'] = ','.join(select)
 

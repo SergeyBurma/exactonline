@@ -71,6 +71,10 @@ class Manager(object):
     def filter(self, **kwargs):
         # kwargs = {'filter': "EntryDate+gt+datetime'2014-01-01'", 'top': 5}
         args = []
+        modified_at = kwargs.pop('modified__gt', None)
+        if modified_at:
+            modified_at = self._remote_datetime(modified_at)
+            self._filter_append(kwargs, u'Modified gt %s' % modified_at)
         for key, value in kwargs.items():
             args.append('$%s=%s' % (
                 key, binquote(to_unistr(value))))
