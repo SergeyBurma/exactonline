@@ -27,6 +27,7 @@ class Transactions(Manager):
                 'FinancialYear',
                 'FinancialPeriod',
                 'JournalCode',
+                'Division',
             ]
             kwargs['select'] = ','.join(select)
         if date__lt is not None:
