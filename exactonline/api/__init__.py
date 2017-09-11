@@ -22,6 +22,7 @@ from .payables import Payables
 from .journals import Journals
 from .transaction_lines import TransactionLines
 from .transactions import Transactions
+from .currencyrates import CurrencyRates
 
 
 class ExactApi(
@@ -45,3 +46,4 @@ class ExactApi(
     journals = Journals.as_property()
     transactions = Transactions.as_property()
     transaction_lines = TransactionLines.as_property()
+    currency_rates = CurrencyRates.as_property()
