@@ -44,8 +44,9 @@ class Invoices(Manager):
             for invoice_number in invoice_number__in:
                 remote_id = self._remote_invoice_number(invoice_number)
                 remote_filter.append(u'YourRef eq %s' % (remote_id,))
-            self._filter_append(
-                kwargs, u'(%s)' % (u' or '.join(remote_filter),))
+            if len(remote_filter) > 0:
+                self._filter_append(
+                    kwargs, u'(%s)' % (u' or '.join(remote_filter),))
 
         if reporting_period is not None:
             # Filter by reporting period.
